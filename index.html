@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Tracking US Foreign Policy Interests</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+  display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+body {
+  width: 50vw;
+  margin-left: 25vw;
+  font-size: 2.5vh;
+}
+
+h3 {
+  font-weight: 500;
+}
+
+.container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h2 { margin-top: 0; color: #2c3e50; }
+        .controls { margin-bottom: 20px; padding: 15px; background: #eee; border-radius: 5px; }
+        label { font-weight: bold; margin-right: 10px; }
+        select { padding: 8px 12px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; min-width: 200px;}
+        .chart-wrapper { position: relative; height: 50vh; width: 100%; min-height: 400px; }
+        #loading { color: #666; font-style: italic; }
+        #error-msg { color: #d9534f; display: none; font-weight: bold;}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="tracking-us-foreign-policy-interests">Tracking US Foreign Policy Interests</h1>
+<blockquote>
+<p>Eric Gutiérrez, 10th February 2026.</p>
+</blockquote>
+<div class="container">
+    <h4>Topic Importance for US Foreign Affairs' Experts</h4>
+    
+    <div id="loading">Loading data...</div>
+    <div id="error-msg">Error: Could not load data.json. Ensure you are running this on a server (or GitHub Pages), not opening the file directly.</div>
+
+    <div class="controls" id="controls" style="display:none;">
+        <label for="wordSelector">Select a Topic:</label>
+        <select id="wordSelector">
+            </select>
+    </div>
+
+    <div class="chart-wrapper">
+        <canvas id="trendChart"></canvas>
+    </div>
+</div>
+<h3 id="motivation">Motivation</h3>
+<p>Over the years, the topics that dominate the US foreign policy discourse have shifted dramatically, reflecting the evolving challenges and strategic interests of each era. From the post-Cold War focus on traditional security to the modern urgency of climate change and supply chain resilience, the language of diplomacy is constantly changing. In this project, we quantify these shifts by tracking the importance of 200 foreign-affairs-related topics from 1998 to 2025.</p>
+<h3 id="data--methods">Data & Methods</h3>
+<p>To derive the importance of each topic in any given year, we analyzed 700 reports published by foreign-affairs experts from the <a href="https://www.cfr.org/">Council on Foreign Relations</a> between 1998 and 2025.</p>
+<p>We began by lemmatizing the documents to standardize the vocabulary. We then generated a Term Frequency-Inverse Document Frequency (TF-IDF) matrix, which computes how distinct each term is within the corpus. It is important to stress that this metric does not measure volume (how many times a term appears), but rather salience (how central a term is to a specific document or time period).</p>
+<p>To construct the time-series, we aggregated the TF-IDF scores by year, calculating the mean score across all documents published in that year. This reveals the average 'importance' of a topic annually, independent of the total number of reports published.</p>
+<h3 id="results">Results</h3>
+<p>Our analysis generated a dataset containing importance scores for over 37,000 unique terms across 700 documents spanning the entire analysis period. To visualize the most significant shifts in interest, the interactive chart above displays the trends for the 200 most prominent topics.</p>
+
+<h3 id="conclusions">Conclusions</h3>
+<p>Ultimately, the trends identified in the dashboard above tell the story of a changing world. As new challenges emerge, the vocabulary of diplomacy will continue to adapt, serving as a real-time indicator of global priorities.</p>
+
+<script>
+    const ctx = document.getElementById('trendChart').getContext('2d');
+    let myChart;
+    let tfidfData;
+
+    // --- 1. Fetch Data ---
+    fetch('output/tfidf_data.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("HTTP error " + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            tfidfData = data;
+            initializeVisualizer();
+        })
+        .catch(err => {
+            console.error('Fetch error:', err);
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error-msg').style.display = 'block';
+        });
+
+    // --- 2. Initialize Logic (Runs after data is loaded) ---
+    function initializeVisualizer() {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('controls').style.display = 'block';
+        
+        const selector = document.getElementById('wordSelector');
+
+        const sortedKeys = Object.keys(tfidfData.series).sort();
+        
+        sortedKeys.forEach(key => {
+            const option = document.createElement('option');
+            option.value = key;
+            option.textContent = key.charAt(0).toUpperCase() + key.slice(1);
+            selector.appendChild(option);
+        });
+
+        selector.addEventListener('change', (e) => {
+            const selectedTerm = e.target.value;
+            updateChart(selectedTerm, tfidfData.series[selectedTerm]);
+        });
+
+        const defaultWord = "china"
+        selector.value = defaultWord
+        updateChart(defaultWord, tfidfData.series[defaultWord]);
+    }
+
+    // --- 3. Chart Logic ---
+    function updateChart(label, data) {
+        if (myChart) myChart.destroy();
+
+        myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: tfidfData.years,
+                datasets: [{
+                    label: `TF-IDF Score: ${label}`,
+                    data: data,
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#2c3e50',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'TF-IDF Score' } },
+                    x: { title: { display: true, text: 'Year' } }
+                },
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: { mode: 'index', intersect: false }
+                }
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
