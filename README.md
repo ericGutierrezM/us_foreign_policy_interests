@@ -1,7 +1,7 @@
 # Tracking US Foreign Policy Interests
 >Eric Gutiérrez, 10th February 2026.
 
-### Visit the interactive [dashboard](https://<YOUR-USERNAME>.github.io/<REPO-NAME>/)
+### Visit the interactive [dashboard]([https://<YOUR-USERNAME>.github.io/<REPO-NAME>/](https://ericgutierrezm.github.io/us_foreign_policy_interests/))
 
 This project applies **TF-IDF (Term Frequency-Inverse Document Frequency)** analysis to 700+ expert reports from the *Council on Foreign Relations*. It tracks the salience of 200 key topics, revealing how US strategic priorities have shifted.
 
