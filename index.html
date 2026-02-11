@@ -188,16 +188,23 @@ h3 {
     </div>
 </div>
 <h3 id="motivation">Motivation</h3>
-<p>Over the years, the topics that dominate the US foreign policy discourse have shifted dramatically, reflecting the evolving challenges and strategic interests of each era. From the post-Cold War focus on traditional security to the modern urgency of climate change and supply chain resilience, the language of diplomacy is constantly changing. In this project, we quantify these shifts by tracking the importance of 200 foreign-affairs-related topics from 1998 to 2025.</p>
+<p>Over the years, the topics that dominate the US foreign policy discourse have shifted dramatically, reflecting the evolving challenges and strategic 
+  interests of each era. From the post-Cold War focus on traditional security to the modern urgency of climate change and supply chain resilience, the 
+  language of diplomacy is constantly changing. In this project, we quantify these shifts by tracking the importance of 200 foreign-affairs-related topics 
+  from 1998 to 2025.</p>
 <h3 id="data--methods">Data & Methods</h3>
-<p>To derive the importance of each topic in any given year, we analyzed 700 reports published by foreign-affairs experts from the <a href="https://www.cfr.org/">Council on Foreign Relations</a> between 1998 and 2025.</p>
-<p>We began by lemmatizing the documents to standardize the vocabulary. We then generated a Term Frequency-Inverse Document Frequency (TF-IDF) matrix, which computes how distinct each term is within the corpus. It is important to stress that this metric does not measure volume (how many times a term appears), but rather salience (how central a term is to a specific document or time period).</p>
-<p>To construct the time-series, we aggregated the TF-IDF scores by year, calculating the mean score across all documents published in that year. This reveals the average 'importance' of a topic annually, independent of the total number of reports published.</p>
+<p>To derive the importance of each topic in any given year, we analyzed 700 reports published by foreign-affairs experts from 
+  the <a href="https://www.cfr.org/">Council on Foreign Relations</a> between 1998 and 2025.</p>
+<p>We began by lemmatizing the documents to standardize the vocabulary. We then generated the Document-Term matrix (DTM), which computes how many times
+  any given term appears in each document. To construct the time-series, we aggregated the counts by year, calculating the total number of occurrences across all documents published in that year. 
+  This reveals the average 'importance' of a topic annually, independent of the length of the documents published.</p>
 <h3 id="results">Results</h3>
-<p>Our analysis generated a dataset containing importance scores for over 37,000 unique terms across 700 documents spanning the entire analysis period. To visualize the most significant shifts in interest, the interactive chart above displays the trends for the 200 most prominent topics.</p>
+<p>Our analysis generated a dataset containing importance scores for over 37,000 unique terms across 700 documents spanning the entire analysis period. 
+  To visualize the most significant shifts in interest, the interactive chart above displays the trends for the 200 most prominent topics.</p>
 
 <h3 id="conclusions">Conclusions</h3>
-<p>Ultimately, the trends identified in the dashboard above tell the story of a changing world. As new challenges emerge, the vocabulary of diplomacy will continue to adapt, serving as a real-time indicator of global priorities.</p>
+<p>Ultimately, the trends identified in the dashboard above tell the story of a changing world. As new challenges emerge, the vocabulary of diplomacy 
+  will continue to adapt, serving as a real-time indicator of global priorities.</p>
 
 <script>
     const ctx = document.getElementById('trendChart').getContext('2d');
@@ -205,7 +212,7 @@ h3 {
     let tfidfData;
 
     // --- 1. Fetch Data ---
-    fetch('output/tfidf_data.json')
+    fetch('output/dtm_series_data.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error("HTTP error " + response.status);
@@ -257,7 +264,7 @@ h3 {
             data: {
                 labels: tfidfData.years,
                 datasets: [{
-                    label: `TF-IDF Score: ${label}`,
+                    label: `Occurrences per 1,000 Words: ${label}`,
                     data: data,
                     borderColor: '#3498db',
                     backgroundColor: 'rgba(52, 152, 219, 0.2)',
@@ -272,7 +279,7 @@ h3 {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    y: { beginAtZero: true, title: { display: true, text: 'TF-IDF Score' } },
+                    y: { beginAtZero: true, title: { display: true, text: 'Average Yearly Occurrences per 1,000 Words'} },
                     x: { title: { display: true, text: 'Year' } }
                 },
                 plugins: {
